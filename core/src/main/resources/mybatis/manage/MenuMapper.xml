@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coocaa.element.core.dao.manage.MenuMapper">
+    <resultMap type="com.coocaa.element.core.model.manage.Menu" id="menuResultMap">
+        <id property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="parentIds" column="parent_ids"/>
+        <result property="name" column="name"/>
+        <result property="sort" column="sort"/>
+        <result property="href" column="href"/>
+        <result property="target" column="target"/>
+        <result property="icon" column="icon"/>
+        <result property="isShow" column="is_show"/>
+        <result property="permission" column="permission"/>
+        <result property="depth" column="depth"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="remarks" column="remarks"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <resultMap type="com.coocaa.element.core.model.view.MenuView" id="menuViewResultMap">
+        <id property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="sort" column="sort"/>
+        <result property="href" column="href"/>
+        <result property="icon" column="icon"/>
+        <result property="isShow" column="is_show"/>
+        <result property="permission" column="permission"/>
+        <result property="depth" column="depth"/>
+        <result property="parentName" column="parent_name"/>
+    </resultMap>
+
+    <sql id="sql1">
+      `id`, `parent_id`, `parent_ids`, `name`, `sort`, `href`, `target`, `icon`, `is_show`, `permission`, `depth`,
+       `create_by`, `create_date`, `update_by`, `update_date`, `remarks`, `del_flag`
+    </sql>
+
+    <select id="findBy" resultMap="menuResultMap" parameterType="HashMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_menu`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="parentId != null">
+                and `parent_id` = #{parentId}
+            </if>
+            <if test="parentIds != null">
+                and `parent_ids` = #{parentIds}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="href != null">
+                and `href` = #{href}
+            </if>
+            <if test="isShow != null">
+                and `is_show` = #{isShow}
+            </if>
+            <if test="permission != null">
+                and `permission` = #{permission}
+            </if>
+            <if test="depth != null">
+                and `depth` = #{depth}
+            </if>
+            <if test="delFlag != null">
+                and `del_flag` = #{delFlag}
+            </if>
+        </trim>
+        <choose>
+            <when test="orderBy == null">
+                ORDER BY id DESC
+            </when>
+            <otherwise>
+                ORDER BY ${orderBy}
+            </otherwise>
+        </choose>
+    </select>
+    <select id="countBy" resultType="Integer" parameterType="HashMap">
+        SELECT COUNT(1)
+        FROM `sys_menu`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="parentId != null">
+                and `parent_id` = #{parentId}
+            </if>
+            <if test="parentIds != null">
+                and `parent_ids` = #{parentIds}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="href != null">
+                and `href` = #{href}
+            </if>
+            <if test="isShow != null">
+                and `is_show` = #{isShow}
+            </if>
+            <if test="permission != null">
+                and `permission` = #{permission}
+            </if>
+            <if test="depth != null">
+                and `depth` = #{depth}
+            </if>
+            <if test="delFlag != null">
+                and `del_flag` = #{delFlag}
+            </if>
+        </trim>
+    </select>
+    <select id="getEntityById" parameterType="Integer" resultMap="menuResultMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_menu`
+        WHERE `id` = #{id}
+    </select>
+    <insert id="insert" parameterType="com.coocaa.element.core.model.manage.Menu" useGeneratedKeys="true"
+            keyColumn="id">
+        INSERT INTO `sys_menu` (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="parentId != null">`parent_id`,</if>
+            <if test="parentIds != null">`parent_ids`,</if>
+            <if test="name != null">`name`,</if>
+            <if test="sort != null">`sort`,</if>
+            <if test="href != null">`href`,</if>
+            <if test="icon != null">`icon`,</if>
+            <if test="isShow != null">`is_show`,</if>
+            <if test="permission != null">`permission`,</if>
+            <if test="depth != null">`depth`,</if>
+            <if test="createBy != null">`create_by`,</if>
+            <if test="createDate != null">`create_date`,</if>
+            <if test="updateBy != null">`update_by`,</if>
+            <if test="updateDate != null">`update_date`,</if>
+            <if test="remarks != null">`remarks`,</if>
+            <if test="delFlag != null">`del_flag`,</if>
+        </trim>
+        values (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="parentId != null">#{parentId},</if>
+            <if test="parentIds != null">#{parentIds},</if>
+            <if test="name != null">#{name},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="href != null">#{href},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="isShow != null">#{isShow},</if>
+            <if test="permission != null">#{permission},</if>
+            <if test="depth != null">#{depth},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+        <selectKey resultType="Integer" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <update id="update" parameterType="com.coocaa.element.core.model.manage.Menu">
+        UPDATE `sys_menu`
+        <set>
+            <if test="parentId != null">`parent_id` = #{parentId},</if>
+            <if test="parentIds != null">`parent_ids` = #{parentIds},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="sort != null">`sort` = #{sort},</if>
+            <if test="href != null">`href` = #{href},</if>
+            <if test="target != null">`target` = #{target},</if>
+            <if test="icon != null">`icon` = #{icon},</if>
+            <if test="isShow != null">`is_show` = #{isShow},</if>
+            <if test="permission != null">`permission` = #{permission},</if>
+            <if test="depth != null">`depth` = #{depth},</if>
+            <if test="createBy != null">`create_by` = #{createBy},</if>
+            <if test="createDate != null">`create_date` = #{createDate},</if>
+            <if test="updateBy != null">`update_by` = #{updateBy},</if>
+            <if test="updateDate != null">`update_date` = #{updateDate},</if>
+            <if test="remarks != null">`remarks` = #{remarks},</if>
+            <if test="delFlag != null">`del_flag` = #{delFlag},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM `sys_menu`
+        WHERE `id` = #{id}
+    </delete>
+
+    <select id="findAllMenu" resultMap="menuViewResultMap" parameterType="HashMap">
+        SELECT
+        a.`id`,
+        a.`parent_id`,
+        a.`name`,
+        a.`sort`,
+        a.`href`,
+        a.`icon`,
+        a.`is_show`,
+        a.`permission`,
+        a.`depth`,
+        b.`name` AS `parent_name`
+        FROM `sys_menu` a LEFT JOIN `sys_menu` b ON b.`id` = a.`parent_id`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="id != null">
+                and a.`id` = #{id}
+            </if>
+            <if test="parentId != null">
+                and a.`parent_id` = #{parentId}
+            </if>
+            <if test="isShow != null">
+                and a.`is_show` = #{isShow}
+            </if>
+            <if test="delFlag != null">
+                and a.`del_flag` = #{delFlag}
+            </if>
+        </trim>
+        <choose>
+            <when test="orderBy == null">
+                ORDER BY a.`sort` ASC
+            </when>
+            <otherwise>
+                ORDER BY a.${orderBy}
+            </otherwise>
+        </choose>
+    </select>
+</mapper>
+
+
+

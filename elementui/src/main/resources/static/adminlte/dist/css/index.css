@@ -1,0 +1,23 @@
+.content-label{width: 100px;}
+.device-btn{width:80px; margin-top: 10px; margin-right: 5px}
+.search-group{float:left; width: 300px; padding:0; margin-bottom: 5px}
+.search-group label{width: 90px; padding:0; margin-right: 5px}
+.search-group input{width: 150px;}
+.search-group .col-sm-8{padding:0}
+#emmcName_wrapper,#ramName_wrapper{width: 45%; float:left}
+#emmcSize_wrapper,#ramSize_wrapper{width: 45%; float:right}
+.listStorage{width: 100% !important;}
+
+#example1{width:100% !important;}
+
+.add-label{
+    float: left;
+    line-height: 34px;
+    width:112px;
+    text-align: right;
+}
+.add-label .fa{    font-size: 12px;}
+.edit, .del, .changeStatus, .pendingAudit, .audit, .refuseAudit, .revokeAudit, .createCopy {
+    cursor: pointer;
+    /*margin-left:10px*/
+}

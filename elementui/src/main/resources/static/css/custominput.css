@@ -1,0 +1,20 @@
+/* ----- Custom checkboxes, radios ----- */
+/*	wrapper divs */
+.custom-checkbox{position:relative;}
+/* input, label positioning */
+.custom-checkbox input{position:absolute;margin:0;}
+.custom-checkbox label{display:block;position:relative;font-size:1em;padding-right:1em;line-height:1;padding:.5em 0 .5em 30px;margin:0 0 .3em;cursor:pointer;}
+/* states */
+.custom-checkbox label{background:url(/img/checkbox.gif) no-repeat;}
+.custom-checkbox label{background-position:-10px -14px;}
+.custom-checkbox label.hover,.custom-checkbox label.focus{background-position:-10px -114px;}
+.custom-checkbox label.checked{background-position:-10px -214px;}
+.custom-checkbox label.checkedHover,.custom-checkbox label.checkedFocus{background-position:-10px -314px;}
+.custom-checkbox label.focus{outline:1px dotted #ccc;}
+
+.custom-checkbox input{
+    z-index: -9999;
+    left: 28px;
+    top:6.5px;
+}
+

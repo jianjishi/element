@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <link rel="stylesheet" th:href="@{/adminlte/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/css/ionicons.min.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
+    <style type="text/css">
+        .noPowerBox {
+            width: 400px; /*宽为400,那么margin-top为-200px*/
+            height: 300px; /*高为200那么margin-left为-100px;*/
+            padding: 20px 20px;
+            /*border: 1px solid #C3C3C3;*/
+            top: 50%;
+            left: 50%;
+            margin: -150px 0 0 -200px; /*设定这个div的margin-top的负值为自身的高度的一半,margin-left的值也是自身的宽度的一半的负值.*/
+            position: absolute;
+        }
+    </style>
+</head>
+<body style="background-image: url(/img/blackWhite.png); background-size: cover">
+<div class="container">
+    <section class="noPowerBox">
+        <div class="row">
+            <div class="col-xs-4">
+            </div>
+            <div class="col-xs-8">
+                <a class="fa fa-lock" style="font-size: 80px;"></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-1">
+            </div>
+            <div class="col-xs-11">
+                抱歉...当前您没有访问权限,请联系管理员
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+            </div>
+            <div class="col-xs-8">
+                <a href="/" class="fa fa-home" style="font-size: 15px;">网站首页</a>
+            </div>
+        </div>
+
+    </section>
+</div>
+</body>
+</html>

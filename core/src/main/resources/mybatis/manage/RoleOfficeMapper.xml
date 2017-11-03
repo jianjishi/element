@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coocaa.element.core.dao.manage.RoleOfficeMapper">
+    <resultMap type="com.coocaa.element.core.model.manage.RoleOffice" id="roleOfficeResultMap">
+        <result property="roleId" column="role_id"/>
+        <result property="menuId" column="menu_id"/>
+    </resultMap>
+
+    <sql id="sql1">
+      `role_id`, `office_id`
+    </sql>
+
+    <select id="findBy" resultMap="roleOfficeResultMap" parameterType="HashMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_role_office`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="roleId != null">
+                and `role_id` = #{roleId}
+            </if>
+            <if test="officeId != null">
+                and `office_id` = #{officeId}
+            </if>
+        </trim>
+    </select>
+    <select id="countBy" resultType="Integer" parameterType="HashMap">
+        SELECT COUNT(1)
+        FROM `sys_role_office`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="roleId != null">
+                and `role_id` = #{roleId}
+            </if>
+            <if test="officeId != null">
+                and `office_id` = #{officeId}
+            </if>
+        </trim>
+    </select>
+    <select id="getEntityById" parameterType="Integer" resultMap="roleOfficeResultMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_role_office`
+        WHERE `id` = #{id}
+    </select>
+    <insert id="insert" parameterType="com.coocaa.element.core.model.manage.RoleOffice" useGeneratedKeys="true"
+            keyColumn="id">
+        INSERT INTO `sys_role_office` (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="roleId != null">`role_id`,</if>
+            <if test="officeId != null">`office_id`,</if>
+        </trim>
+        values (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="roleId != null">#{roleId},</if>
+            <if test="officeId != null">#{officeId},</if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.coocaa.element.core.model.manage.RoleOffice">
+        UPDATE `sys_role_office`
+        <set>
+            <if test="roleId != null">`role_id` = #{roleId},</if>
+            <if test="officeId != null">`office_id` = #{officeId},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM `sys_role_office`
+        WHERE `id` = #{id}
+    </delete>
+
+</mapper>
+
+
+

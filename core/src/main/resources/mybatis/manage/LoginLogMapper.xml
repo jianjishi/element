@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coocaa.element.core.dao.manage.LoginLogMapper">
+    <resultMap type="com.coocaa.element.core.model.manage.LoginLog" id="loginLogResultMap">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="status" column="status"/>
+        <result property="loginTime" column="login_time"/>
+        <result property="loginIp" column="login_ip"/>
+    </resultMap>
+    <sql id="sql1">`id`, `user_id`, `status`, `login_time`, `login_ip`</sql>
+
+    <select id="findBy" resultMap="loginLogResultMap" parameterType="HashMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_login_log`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="loginIp != null">
+                and login_ip = #{loginIp}
+            </if>
+        </trim>
+        <choose>
+            <when test="orderBy == null">
+                ORDER BY id DESC
+            </when>
+            <otherwise>
+                ORDER BY ${orderBy}
+            </otherwise>
+        </choose>
+    </select>
+    <select id="countBy" resultType="Integer" parameterType="HashMap">
+        SELECT COUNT(*)
+        FROM `sys_login_log`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="loginIp != null">
+                and login_ip = #{loginIp}
+            </if>
+        </trim>
+    </select>
+    <select id="getEntityById" parameterType="Integer" resultMap="loginLogResultMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_login_log`
+        WHERE id = #{id}
+    </select>
+    <insert id="insert" parameterType="com.coocaa.element.core.model.manage.LoginLog" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO `sys_login_log` (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="status != null">status,</if>
+            <if test="loginTime != null">login_time,</if>
+            <if test="loginIp != null">login_ip,</if>
+        </trim>
+        values (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="loginTime != null">#{loginTime},</if>
+            <if test="loginIp != null">#{loginIp},</if>
+        </trim>
+        <selectKey resultType="Integer" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <update id="update" parameterType="com.coocaa.element.core.model.manage.LoginLog">
+        UPDATE `sys_login_log`
+        <set>
+            <if test="userId != null">`user_id` = #{userId},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="loginTime != null">`login_time` = #{loginTime},</if>
+            <if test="loginIp != null">`login_ip` = #{loginIp},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+		DELETE FROM `sys_login_log`
+		WHERE id = #{id}
+	</delete>
+</mapper>
+
+
+

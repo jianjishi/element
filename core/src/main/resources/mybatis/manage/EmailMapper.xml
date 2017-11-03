@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coocaa.element.core.dao.manage.EmailMapper">
+    <resultMap type="com.coocaa.element.core.model.manage.Email" id="emailResultMap">
+        <id property="id" column="id"/>
+        <result property="emailName" column="email_name"/>
+        <result property="type" column="type"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="remarks" column="remarks"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <sql id="sql1">
+      `id`, `email_name`, `type`, `status`, `create_by`, `create_date`, `update_by`,
+      `update_date`, `remarks`, `del_flag`
+    </sql>
+
+    <select id="findBy" resultMap="emailResultMap" parameterType="HashMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_email`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="emailName != null">
+                and `email_name` = #{emailName}
+            </if>
+            <if test="type != null">
+                and `type` = #{type}
+            </if>
+            <if test="status != null">
+                and `status` = #{status}
+            </if>
+            <if test="delFlag != null">
+                and `del_flag` = #{delFlag}
+            </if>
+        </trim>
+        <choose>
+            <when test="orderBy == null">
+                ORDER BY id DESC
+            </when>
+            <otherwise>
+                ORDER BY ${orderBy}
+            </otherwise>
+        </choose>
+    </select>
+    <select id="countBy" resultType="Integer" parameterType="HashMap">
+        SELECT COUNT(1)
+        FROM `sys_email`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="emailName != null">
+                and `email_name` = #{emailName}
+            </if>
+            <if test="type != null">
+                and `type` = #{type}
+            </if>
+            <if test="status != null">
+                and `status` = #{status}
+            </if>
+            <if test="delFlag != null">
+                and `del_flag` = #{delFlag}
+            </if>
+        </trim>
+    </select>
+    <select id="getEntityById" parameterType="Integer" resultMap="emailResultMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_email`
+        WHERE `id` = #{id}
+    </select>
+    <insert id="insert" parameterType="com.coocaa.element.core.model.manage.Email" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO `sys_email` (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="emailName != null">`email_name`,</if>
+            <if test="type != null">`type`,</if>
+            <if test="status != null">`status`,</if>
+            <if test="createBy != null">`create_by`,</if>
+            <if test="createDate != null">`create_date`,</if>
+            <if test="updateBy != null">`update_by`,</if>
+            <if test="updateDate != null">`update_date`,</if>
+            <if test="remarks != null">`remarks`,</if>
+            <if test="delFlag != null">`del_flag`,</if>
+        </trim>
+        values (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="emailName != null">#{emailName},</if>
+            <if test="type != null">#{type},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+        <selectKey resultType="Integer" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <update id="update" parameterType="com.coocaa.element.core.model.manage.Email">
+        UPDATE `sys_email`
+        <set>
+            <if test="emailName != null">`email_name` = #{emailName},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="createBy != null">`create_by` = #{createBy},</if>
+            <if test="createDate != null">`create_date` = #{createDate},</if>
+            <if test="updateBy != null">`update_by` = #{updateBy},</if>
+            <if test="updateDate != null">`update_date` = #{updateDate},</if>
+            <if test="remarks != null">`remarks` = #{remarks},</if>
+            <if test="delFlag != null">`del_flag` = #{delFlag},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM `sys_email`
+        WHERE `id` = #{id}
+    </delete>
+</mapper>
+
+
+

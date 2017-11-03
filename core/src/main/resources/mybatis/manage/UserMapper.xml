@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coocaa.element.core.dao.manage.UserMapper">
+    <resultMap type="com.coocaa.element.core.model.manage.User" id="userResultMap">
+        <id property="id" column="id"/>
+        <result property="officeId" column="office_id"/>
+        <result property="loginName" column="login_name"/>
+        <result property="salt" column="salt"/>
+        <result property="password" column="password"/>
+        <result property="no" column="no"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="mobile" column="mobile"/>
+        <result property="userType" column="user_type"/>
+        <result property="loginIp" column="login_ip"/>
+        <result property="loginDate" column="login_date"/>
+        <result property="loginFlag" column="login_flag"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="remarks" column="remarks"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <sql id="sql1">
+      `id`, `office_id`, `login_name`, `salt`, `password`, `no`, `name`, `email`, `phone`, `mobile`,
+      `user_type`, `login_ip`, `login_date`, `login_flag`, `create_by`, `create_date`, `update_by`,
+      `update_date`, `remarks`, `del_flag`
+    </sql>
+
+    <select id="findBy" resultMap="userResultMap" parameterType="HashMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_user`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="officeId != null">
+                and `office_id` = #{officeId}
+            </if>
+            <if test="loginName != null">
+                and `login_name` = #{loginName}
+            </if>
+            <if test="password != null">
+                and `password` = #{password}
+            </if>
+            <if test="no != null">
+                and `no` = #{no}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="email != null">
+                and `email` = #{email}
+            </if>
+            <if test="phone != null">
+                and `phone` = #{phone}
+            </if>
+            <if test="mobile != null">
+                and `mobile` = #{mobile}
+            </if>
+            <if test="userType != null">
+                and `user_type` = #{userType}
+            </if>
+            <if test="loginFlag != null">
+                and `login_flag` = #{loginFlag}
+            </if>
+            <if test="delFlag != null">
+                and `del_flag` = #{delFlag}
+            </if>
+            <if test="userMsg != null">
+                and (instr(`login_name`, #{userMsg})>0 OR instr(`name`, #{userMsg})>0 OR instr(`email`, #{userMsg})>0)
+            </if>
+        </trim>
+        <choose>
+            <when test="orderBy == null">
+                ORDER BY id DESC
+            </when>
+            <otherwise>
+                ORDER BY ${orderBy}
+            </otherwise>
+        </choose>
+    </select>
+    <select id="countBy" resultType="Integer" parameterType="HashMap">
+        SELECT COUNT(1)
+        FROM `sys_user`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="officeId != null">
+                and `office_id` = #{officeId}
+            </if>
+            <if test="loginName != null">
+                and `login_name` = #{loginName}
+            </if>
+            <if test="password != null">
+                and `password` = #{password}
+            </if>
+            <if test="no != null">
+                and `no` = #{no}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="email != null">
+                and `email` = #{email}
+            </if>
+            <if test="phone != null">
+                and `phone` = #{phone}
+            </if>
+            <if test="mobile != null">
+                and `mobile` = #{mobile}
+            </if>
+            <if test="userType != null">
+                and `user_type` = #{userType}
+            </if>
+            <if test="loginFlag != null">
+                and `login_flag` = #{loginFlag}
+            </if>
+            <if test="delFlag != null">
+                and `del_flag` = #{delFlag}
+            </if>
+        </trim>
+    </select>
+    <select id="getEntityById" parameterType="Integer" resultMap="userResultMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_user`
+        WHERE `id` = #{id}
+    </select>
+    <insert id="insert" parameterType="com.coocaa.element.core.model.manage.User" useGeneratedKeys="true" keyColumn="id">
+        INSERT INTO `sys_user` (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="officeId != null">`office_id`,</if>
+            <if test="loginName != null">`login_name`,</if>
+            <if test="salt != null">`salt`,</if>
+            <if test="password != null">`password`,</if>
+            <if test="no != null">`no`,</if>
+            <if test="name != null">`name`,</if>
+            <if test="email != null">`email`,</if>
+            <if test="phone != null">`phone`,</if>
+            <if test="mobile != null">`mobile`,</if>
+            <if test="userType != null">`user_type`,</if>
+            <if test="loginIp != null">`login_ip`,</if>
+            <if test="loginDate != null">`login_date`,</if>
+            <if test="loginFlag != null">`login_flag`,</if>
+            <if test="createBy != null">`create_by`,</if>
+            <if test="createDate != null">`create_date`,</if>
+            <if test="updateBy != null">`update_by`,</if>
+            <if test="updateDate != null">`update_date`,</if>
+            <if test="remarks != null">`remarks`,</if>
+            <if test="delFlag != null">`del_flag`,</if>
+        </trim>
+        values (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="officeId != null">#{officeId},</if>
+            <if test="loginName != null">#{loginName},</if>
+            <if test="salt != null">#{salt},</if>
+            <if test="password != null">#{password},</if>
+            <if test="no != null">#{no},</if>
+            <if test="name != null">#{name},</if>
+            <if test="email != null">#{email},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="userType != null">#{userType},</if>
+            <if test="loginIp != null">#{loginIp},</if>
+            <if test="loginDate != null">#{loginDate},</if>
+            <if test="loginFlag != null">#{loginFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+        <selectKey resultType="Integer" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <update id="update" parameterType="com.coocaa.element.core.model.manage.User">
+        UPDATE `sys_user`
+        <set>
+            <if test="officeId != null">`office_id` = #{officeId},</if>
+            <if test="loginName != null">`login_name` = #{loginName},</if>
+            <if test="salt != null">`salt` = #{salt},</if>
+            <if test="password != null">`password` = #{password},</if>
+            <if test="no != null">`no` = #{no},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="email != null">`email` = #{email},</if>
+            <if test="phone != null">`phone` = #{phone},</if>
+            <if test="mobile != null">`mobile` = #{mobile},</if>
+            <if test="userType != null">`user_type` = #{userType},</if>
+            <if test="loginIp != null">`login_ip` = #{loginIp},</if>
+            <if test="loginDate != null">`login_date` = #{loginDate},</if>
+            <if test="loginFlag != null">`login_flag` = #{loginFlag},</if>
+            <if test="createBy != null">`create_by` = #{createBy},</if>
+            <if test="createDate != null">`create_date` = #{createDate},</if>
+            <if test="updateBy != null">`update_by` = #{updateBy},</if>
+            <if test="updateDate != null">`update_date` = #{updateDate},</if>
+            <if test="remarks != null">`remarks` = #{remarks},</if>
+            <if test="delFlag != null">`del_flag` = #{delFlag},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM `sys_user`
+        WHERE `id` = #{id}
+    </delete>
+</mapper>
+
+
+

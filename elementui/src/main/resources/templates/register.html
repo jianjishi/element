@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:replace="/fragments/loginHeader :: head"></head>
+<body class="hold-transition register-page"
+      style="background-image: url(/img/blue.png); background-size: 100%">
+<div align="center" style="margin-top: 50px;">
+    <p>
+    <h1 style="color:#FC4C02"><img src="/img/logo.png"/>|<b>设备报备系统</b></h1></p>
+</div>
+<div class="register-box">
+    <div class="register-box-body">
+        <p class="register-box-msg" style="font-weight: bolder; font-size: large">用户注册</p>
+        <form>
+            <div class="form-group has-feedback">
+                <input type="text" name="name" class="form-control" placeholder="姓名:请填写真实姓名" required="required" autofocus="autofocus" />
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="text" name="loginName" class="form-control" placeholder="账号:用于登录" required="required" />
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="email" name="email" class="form-control" placeholder="邮箱(@coocaa.com/@skyworth.com)"
+                       required="required" />
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" name="password" class="form-control" placeholder="密码:请输入6-14位的字符(字母或数字)" required="required" />
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" name="rPassword" class="form-control" placeholder="确认密码" required="required" />
+                <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <textarea name="remarks" class="form-control" placeholder="账号说明,如:我是XX,来自XX部门,申请原因:XX" required="required"></textarea>
+                <span class="glyphicon glyphicon-bell form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-8" style="padding-top: 6px">
+                    <a href="/" class="text-center" style="font-size: 15px;">我已经有了一个账号</a>
+                </div>
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">注册</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('form').submit(function (e) {
+            e.preventDefault();
+            $.post("/register", $("form").serialize(), function (a, b) {
+                if (a == true) {
+                    window.location.href = "/registerSuccess";
+                } else {
+                    alert(a.msg);
+                    return false;
+                }
+            }).fail(function (jhr) {
+                console.log(jhr);
+                alert("注册失败");
+            });
+        });
+    });
+</script>
+</body>
+</html>

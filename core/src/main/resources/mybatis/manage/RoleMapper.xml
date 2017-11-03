@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coocaa.element.core.dao.manage.RoleMapper">
+    <resultMap type="com.coocaa.element.core.model.manage.Role" id="roleResultMap">
+        <id property="id" column="id"/>
+        <result property="officeId" column="office_id"/>
+        <result property="name" column="name"/>
+        <result property="enname" column="enname"/>
+        <result property="roleType" column="role_type"/>
+        <result property="isSys" column="is_sys"/>
+        <result property="useable" column="useable"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="remarks" column="remarks"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <sql id="sql1">
+      `id`, `office_id`, `name`, `enname`, `role_type`, `is_sys`, `useable`,
+       `create_by`, `create_date`, `update_by`, `remarks`, `del_flag`
+    </sql>
+
+    <select id="findBy" resultMap="roleResultMap" parameterType="HashMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_role`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="officeId != null">
+                and `office_id` = #{officeId}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="enname != null">
+                and `enname` = #{enname}
+            </if>
+            <if test="roleType != null">
+                and `role_type` = #{roleType}
+            </if>
+            <if test="isSys != null">
+                and `is_sys` = #{isSys}
+            </if>
+            <if test="useable != null">
+                and `useable` = #{useable}
+            </if>
+            <if test="delFlag != null">
+                and `del_flag` = #{delFlag}
+            </if>
+        </trim>
+        <choose>
+            <when test="orderBy == null">
+                ORDER BY id DESC
+            </when>
+            <otherwise>
+                ORDER BY ${orderBy}
+            </otherwise>
+        </choose>
+    </select>
+    <select id="countBy" resultType="Integer" parameterType="HashMap">
+        SELECT COUNT(1)
+        FROM `sys_role`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="officeId != null">
+                and `office_id` = #{officeId}
+            </if>
+            <if test="name != null">
+                and `name` = #{name}
+            </if>
+            <if test="enname != null">
+                and `enname` = #{enname}
+            </if>
+            <if test="roleType != null">
+                and `role_type` = #{roleType}
+            </if>
+            <if test="isSys != null">
+                and `is_sys` = #{isSys}
+            </if>
+            <if test="useable != null">
+                and `useable` = #{useable}
+            </if>
+            <if test="delFlag != null">
+                and `del_flag` = #{delFlag}
+            </if>
+        </trim>
+    </select>
+    <select id="getEntityById" parameterType="Integer" resultMap="roleResultMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_role`
+        WHERE `id` = #{id}
+    </select>
+    <insert id="insert" parameterType="com.coocaa.element.core.model.manage.Role" useGeneratedKeys="true"
+            keyColumn="id">
+        INSERT INTO `sys_role` (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="officeId != null">`office_id`,</if>
+            <if test="name != null">`name`,</if>
+            <if test="enname != null">`enname`,</if>
+            <if test="roleType != null">`role_type`,</if>
+            <if test="isSys != null">`is_sys`,</if>
+            <if test="useable != null">`useable`,</if>
+            <if test="createBy != null">`create_by`,</if>
+            <if test="createDate != null">`create_date`,</if>
+            <if test="updateBy != null">`update_by`,</if>
+            <if test="updateDate != null">`update_date`,</if>
+            <if test="remarks != null">`remarks`,</if>
+            <if test="delFlag != null">`del_flag`,</if>
+        </trim>
+        values (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="officeId != null">#{officeId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="enname != null">#{enname},</if>
+            <if test="roleType != null">#{roleType},</if>
+            <if test="isSys != null">#{isSys},</if>
+            <if test="useable != null">#{useable},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+        </trim>
+        <selectKey resultType="Integer" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <update id="update" parameterType="com.coocaa.element.core.model.manage.Role">
+        UPDATE `sys_role`
+        <set>
+            <if test="officeId != null">`office_id` = #{officeId},</if>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="enname != null">`enname` = #{enname},</if>
+            <if test="roleType != null">`role_type` = #{roleType},</if>
+            <if test="isSys != null">`is_sys` = #{isSys},</if>
+            <if test="useable != null">`useable` = #{useable},</if>
+            <if test="createBy != null">`create_by` = #{createBy},</if>
+            <if test="createDate != null">`create_date` = #{createDate},</if>
+            <if test="updateBy != null">`update_by` = #{updateBy},</if>
+            <if test="updateDate != null">`update_date` = #{updateDate},</if>
+            <if test="remarks != null">`remarks` = #{remarks},</if>
+            <if test="delFlag != null">`del_flag` = #{delFlag},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM `sys_role`
+        WHERE `id` = #{id}
+    </delete>
+</mapper>
+
+
+

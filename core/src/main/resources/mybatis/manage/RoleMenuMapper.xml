@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coocaa.element.core.dao.manage.RoleMenuMapper">
+    <resultMap type="com.coocaa.element.core.model.manage.RoleMenu" id="roleMenuResultMap">
+        <result property="roleId" column="role_id"/>
+        <result property="menuId" column="menu_id"/>
+    </resultMap>
+    <resultMap type="com.coocaa.element.core.model.view.RoleMenuView" id="roleMenuViewResultMap">
+        <result property="roleId" column="role_id"/>
+        <result property="menuId" column="menu_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="sort" column="sort"/>
+        <result property="href" column="href"/>
+        <result property="target" column="target"/>
+        <result property="icon" column="icon"/>
+        <result property="isShow" column="is_show"/>
+        <result property="permission" column="permission"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <sql id="sql1">
+      `role_id`, `menu_id`
+    </sql>
+
+    <select id="findBy" resultMap="roleMenuResultMap" parameterType="HashMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_role_menu`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="roleId != null">
+                and `role_id` = #{roleId}
+            </if>
+            <if test="menuId != null">
+                and `menu_id` = #{menuId}
+            </if>
+        </trim>
+    </select>
+    <select id="countBy" resultType="Integer" parameterType="HashMap">
+        SELECT COUNT(1)
+        FROM `sys_role_menu`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="roleId != null">
+                and `role_id` = #{roleId}
+            </if>
+            <if test="menuId != null">
+                and `menu_id` = #{menuId}
+            </if>
+        </trim>
+    </select>
+    <select id="getEntityById" parameterType="Integer" resultMap="roleMenuResultMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_role_menu`
+        WHERE `id` = #{id}
+    </select>
+    <insert id="insert" parameterType="com.coocaa.element.core.model.manage.RoleMenu" useGeneratedKeys="true"
+            keyColumn="id">
+        INSERT INTO `sys_role_menu` (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="roleId != null">`role_id`,</if>
+            <if test="menuId != null">`menu_id`,</if>
+        </trim>
+        values (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="roleId != null">#{roleId},</if>
+            <if test="menuId != null">#{menuId},</if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.coocaa.element.core.model.manage.RoleMenu">
+        UPDATE `sys_role_menu`
+        <set>
+            <if test="roleId != null">`role_id` = #{roleId},</if>
+            <if test="menuId != null">`menu_id` = #{menuId},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM `sys_role_menu`
+        WHERE `id` = #{id}
+    </delete>
+
+    <select id="findViewBy" resultMap="roleMenuViewResultMap" parameterType="HashMap">
+        SELECT
+        a.role_id,
+        a.menu_id,
+        b.parent_id,
+        b.name,
+        b.sort,
+        b.href,
+        b.target,
+        b.icon,
+        b.is_show,
+        b.permission,
+        b.del_flag
+        FROM `sys_role_menu` a
+        LEFT JOIN `sys_menu` b
+        ON a.menu_id = b.id
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="roleIdList != null">
+                <foreach collection="roleIdList" item="roleid" open="AND a.role_id IN (" close=")" separator=",">
+                    #{roleid}
+                </foreach>
+            </if>
+            <if test="roleId != null">
+                and a.role_id = #{roleId}
+            </if>
+            <if test="menuId != null">
+                and a.menu_id = #{menuId}
+            </if>
+            <if test="parentId != null">
+                and b.parent_id = #{parentId}
+            </if>
+            <if test="isShow != null">
+                and b.is_show = #{isShow}
+            </if>
+            <if test="delFlag != null">
+                and b.del_flag = #{delFlag}
+            </if>
+        </trim>
+        GROUP BY a.menu_id
+        <choose>
+            <when test="orderBy == null">
+                ORDER BY b.sort ASC
+            </when>
+            <otherwise>
+                ORDER BY ${orderBy}
+            </otherwise>
+        </choose>
+    </select>
+    <delete id="deleteByRoleId" parameterType="Integer">
+        DELETE FROM `sys_role_menu`
+        WHERE role_id = #{roleId}
+    </delete>
+</mapper>
+
+
+

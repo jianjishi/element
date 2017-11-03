@@ -1,0 +1,32 @@
+server:
+  port: 8087
+  session:
+    timeout: 72000
+
+adminPath: /a
+
+spring:
+  datasource:
+    url: jdbc:mysql://172.20.135.96/element?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&zeroDateTimeBehavior=convertToNull
+    username: pushdb
+    password: SkYWOrTh$TcOs
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    validation-query: select 'x'
+    test-while-idle: true
+  thymeleaf:
+    content-type: text/html
+    cache: false
+    mode: LEGACYHTML5
+    prefix: classpath:/templates
+    suffix: .html
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    joda-date-time-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Chongqing
+
+logging:
+  level.com.coocaa.element: debug
+
+adevice:
+  adeviceSite: http://172.20.135.121:8787/

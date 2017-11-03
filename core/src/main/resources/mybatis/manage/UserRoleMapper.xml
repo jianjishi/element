@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coocaa.element.core.dao.manage.UserRoleMapper">
+    <resultMap type="com.coocaa.element.core.model.manage.UserRole" id="userRoleResultMap">
+        <result property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+    </resultMap>
+    <resultMap type="com.coocaa.element.core.model.view.UserRoleView" id="userRoleViewResultMap">
+        <result property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+        <result property="officeId" column="office_id"/>
+        <result property="name" column="name"/>
+        <result property="enname" column="enname"/>
+        <result property="roleType" column="role_type"/>
+        <result property="isSys" column="is_sys"/>
+        <result property="useable" column="useable "/>
+        <result property="remarks" column="remarks "/>
+        <result property="delFlag" column="del_flag "/>
+    </resultMap>
+
+    <sql id="sql1">
+      `user_id`, `role_id`
+    </sql>
+
+    <select id="findBy" resultMap="userRoleResultMap" parameterType="HashMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_user_role`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="userId != null">
+                and `user_id` = #{userId}
+            </if>
+            <if test="roleId != null">
+                and `role_id` = #{roleId}
+            </if>
+        </trim>
+    </select>
+    <select id="countBy" resultType="Integer" parameterType="HashMap">
+        SELECT COUNT(1)
+        FROM `sys_user_role`
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="userId != null">
+                and `user_id` = #{userId}
+            </if>
+            <if test="roleId != null">
+                and `role_id` = #{roleId}
+            </if>
+        </trim>
+    </select>
+    <select id="getEntityById" parameterType="Integer" resultMap="userRoleResultMap">
+        SELECT
+        <include refid="sql1"/>
+        FROM `sys_user_role`
+        WHERE `id` = #{id}
+    </select>
+    <insert id="insert" parameterType="com.coocaa.element.core.model.manage.UserRole" useGeneratedKeys="true"
+            keyColumn="id">
+        INSERT INTO `sys_user_role` (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="userId != null">`user_id`,</if>
+            <if test="roleId != null">`role_id`,</if>
+        </trim>
+        values (
+        <trim suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="roleId != null">#{roleId},</if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.coocaa.element.core.model.manage.UserRole">
+        UPDATE `sys_user_role`
+        <set>
+            <if test="userId != null">`user_id` = #{userId},</if>
+            <if test="roleId != null">`role_id` = #{roleId},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM `sys_user_role`
+        WHERE `id` = #{id}
+    </delete>
+
+    <select id="findViewBy" resultMap="userRoleViewResultMap" parameterType="HashMap">
+        SELECT
+        a.user_id,
+        a.role_id,
+        b.office_id,
+        b.name,
+        b.enname,
+        b.role_type,
+        b.is_sys,
+        b.useable,
+        b.remarks,
+        b.del_flag
+        FROM `sys_user_role` a
+        LEFT JOIN `sys_role` b
+        ON a.role_id = b.id
+        <trim prefixOverrides="and" prefix="WHERE">
+            <if test="userId != null">
+                and a.user_id = #{userId}
+            </if>
+            <if test="roleId != null">
+                and a.role_id = #{roleId}
+            </if>
+            <if test="useable != null">
+                and b.useable = #{useable}
+            </if>
+            <if test="delFlag != null">
+                and b.del_flag = #{delFlag}
+            </if>
+        </trim>
+    </select>
+    <delete id="deleteByUserId" parameterType="Integer">
+        DELETE FROM `sys_user_role`
+        WHERE user_id = #{userId}
+    </delete>
+
+</mapper>
+
+
+
